@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import firebaseApp from './config/firebase';
 import Login from './components/Login';
-import Products from './components/Products';
+import Dashboard from './components/Dashboard';
 
 class App extends Component{
   constructor(props){
@@ -10,8 +10,6 @@ class App extends Component{
     this.state = {
       user: {}
     }
-
-    this.logoutHandle = this.logoutHandle.bind(this)
   }
 
   authListener = () => {
@@ -27,19 +25,15 @@ class App extends Component{
   componentDidMount = () => {
     this.authListener();
   }
-
-  logoutHandle = (e) => {
-    e.preventDefault();
-    firebaseApp.auth().signOut();
-  }
   
   render(){
     return (
       <div className="App">
         {
           this.state.user 
-          ? <Products/>
-          : <Login/>}
+          ? <Dashboard></Dashboard>
+          : <Login/>
+        }
       </div>
     );
   }
