@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import firebaseApp from './config/firebase';
 import Login from './components/Login';
+import Products from './components/Products';
 
 class App extends Component{
   constructor(props){
@@ -37,12 +38,7 @@ class App extends Component{
       <div className="App">
         {
           this.state.user 
-          ? (
-            <div>
-              <h1>You are Logged In</h1>
-              <button onClick={this.logoutHandle}>Logout</button>
-            </div>
-          )
+          ? <Products/>
           : <Login/>}
       </div>
     );
