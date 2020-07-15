@@ -12,8 +12,6 @@ class Dashboard extends Component {
             totalCategories: 0,
             totalProducts: 0
         }
-
-        this.logoutHandle = this.logoutHandle.bind(this);
     }
 
     componentDidMount = () => {
@@ -25,18 +23,12 @@ class Dashboard extends Component {
         .then(snap => {this.setState({totalProducts: snap.size})})
         .catch(err => console.log(err));
     }
-
-    logoutHandle = (e) => {
-        e.preventDefault();
-        firebaseApp.auth().signOut();
-      }
     
     render(){
         return(
             <div>
                 <h3>Categories: {this.state.totalCategories}</h3>
                 <h3>Products: {this.state.totalProducts}</h3>
-                <button onClick={this.logoutHandle}>Logout</button>
             </div>
         )
     }
