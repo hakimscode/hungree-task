@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import firebaseApp from '../config/firebase';
-
-var db = firebaseApp.firestore();
+import { FirebaseDB } from '../config/firebase';
 
 class Dashboard extends Component {
 
@@ -12,31 +10,31 @@ class Dashboard extends Component {
             totalCategories: 0,
             totalProducts: 0
         }
-
-        this.logoutHandle = this.logoutHandle.bind(this);
     }
 
     componentDidMount = () => {
-        db.collection('Categories').get()
-        .then(snap => {this.setState({totalCategories: snap.size})})
+        FirebaseDB.ref('categories').once("value")
+        .then(snap => {
+            snap.forEach(() => {
+                this.setState({totalCategories: this.state.totalCategories + 1})
+            })
+        })
         .catch(err => console.log(err));
-
-        db.collection('Products').get()
-        .then(snap => {this.setState({totalProducts: snap.size})})
+        
+        FirebaseDB.ref('products').once("value")
+        .then(snap => {
+            snap.forEach(() => {
+                this.setState({totalProducts: this.state.totalProducts + 1})
+            })
+        })
         .catch(err => console.log(err));
     }
-
-    logoutHandle = (e) => {
-        e.preventDefault();
-        firebaseApp.auth().signOut();
-      }
     
     render(){
         return(
             <div>
                 <h3>Categories: {this.state.totalCategories}</h3>
                 <h3>Products: {this.state.totalProducts}</h3>
-                <button onClick={this.logoutHandle}>Logout</button>
             </div>
         )
     }

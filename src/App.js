@@ -3,6 +3,8 @@ import './App.css';
 import firebaseApp from './config/firebase';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import { HashRouter, NavLink, Route } from 'react-router-dom';
+import Categories from './components/Categories';
 
 class App extends Component{
   constructor(props){
@@ -10,6 +12,8 @@ class App extends Component{
     this.state = {
       user: {}
     }
+
+    this.logoutHandle = this.logoutHandle.bind(this);
   }
 
   authListener = () => {
@@ -25,13 +29,32 @@ class App extends Component{
   componentDidMount = () => {
     this.authListener();
   }
+
+  logoutHandle = (e) => {
+    e.preventDefault();
+    firebaseApp.auth().signOut();
+  }
   
   render(){
     return (
       <div className="App">
         {
           this.state.user 
-          ? <Dashboard></Dashboard>
+          ? <HashRouter>
+              <div>
+                <h1>Product Management System</h1>
+                <ul>
+                  <li><NavLink to="/">Dashboard</NavLink></li>
+                  <li><NavLink to="/categories">Categories</NavLink></li>
+                  <li><NavLink to="/products">Products</NavLink></li>
+                </ul>
+                <button onClick={this.logoutHandle}>Logout</button>
+                <div>
+                  <Route exact path="/" component={Dashboard}/>
+                  <Route exact path="/categories" component={Categories}/>
+                </div>
+              </div>
+            </HashRouter>
           : <Login/>
         }
       </div>
