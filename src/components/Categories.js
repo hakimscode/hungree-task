@@ -59,10 +59,9 @@ class Categories extends Component {
 
     actionStatus = (categoryId) => {
         if(categoryId !== ""){
-            this.setState({selectedId: categoryId, actionSubmit: "Update"});
             FirebaseDB.ref('categories/' + categoryId).once('value')
             .then(snapshot => {
-                this.setState({categoryName: snapshot.val().categoryName})
+                this.setState({categoryName: snapshot.val().categoryName, selectedId: categoryId, actionSubmit: "Update"})
             })
             .catch(err => console.log(err));
         }else{
