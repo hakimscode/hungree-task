@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import firebaseApp from '../config/firebase';
-
-var db = firebaseApp.firestore();
+import { FirebaseDB } from '../config/firebase';
 
 class Dashboard extends Component {
 
@@ -15,12 +13,20 @@ class Dashboard extends Component {
     }
 
     componentDidMount = () => {
-        db.collection('Categories').get()
-        .then(snap => {this.setState({totalCategories: snap.size})})
+        FirebaseDB.ref('categories').once("value")
+        .then(snap => {
+            snap.forEach(() => {
+                this.setState({totalCategories: this.state.totalCategories + 1})
+            })
+        })
         .catch(err => console.log(err));
-
-        db.collection('Products').get()
-        .then(snap => {this.setState({totalProducts: snap.size})})
+        
+        FirebaseDB.ref('products').once("value")
+        .then(snap => {
+            snap.forEach(() => {
+                this.setState({totalProducts: this.state.totalProducts + 1})
+            })
+        })
         .catch(err => console.log(err));
     }
     

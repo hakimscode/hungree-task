@@ -4,6 +4,7 @@ import firebaseApp from './config/firebase';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import { HashRouter, NavLink, Route } from 'react-router-dom';
+import Categories from './components/Categories';
 
 class App extends Component{
   constructor(props){
@@ -50,6 +51,7 @@ class App extends Component{
                 <button onClick={this.logoutHandle}>Logout</button>
                 <div>
                   <Route exact path="/" component={Dashboard}/>
+                  <Route exact path="/categories" component={Categories}/>
                 </div>
               </div>
             </HashRouter>
