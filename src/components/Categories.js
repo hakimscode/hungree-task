@@ -8,11 +8,14 @@ class Categories extends Component {
         this.state = {
             categories: [],
 
-            categoryName: ""
+            categoryName: "",
+            actionSubmit: "Save",
+
+            selectedId: ""
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.saveCategory = this.saveCategory.bind(this);
+        this.saveCategory = this.submitHandle.bind(this);
     }
 
     componentDidMount = () => {
@@ -30,14 +33,52 @@ class Categories extends Component {
         })
     }
 
-    saveCategory = async (e) => {
+    submitHandle = async (e) => {
         e.preventDefault();
 
-        const category = { categoryName: this.state.categoryName}
+        const postedCategory = { categoryName: this.state.categoryName}
 
-        const newCategory = (await FirebaseDB.ref('categories').push({ ...category })).key
-        if (newCategory !== ""){
-            this.setState({categories: [...this.state.categories, {id: newCategory, ...category}]})
+        if(this.state.actionSubmit === 'Save'){
+            const newCategory = (await FirebaseDB.ref('categories').push({ ...postedCategory })).key
+            if (newCategory !== ""){
+                this.setState({categories: [...this.state.categories, {id: newCategory, ...postedCategory}], categoryName: ""});
+            }
+        }else{
+            FirebaseDB.ref('categories/' + this.state.selectedId).set({...postedCategory})
+            .then(() => {
+                this.setState({categories: this.state.categories.map(category => {
+                    if(category.id === this.state.selectedId){
+                        category.categoryName = postedCategory.categoryName
+                    }
+                    return category;
+                }), selectedId: "", actionSubmit: "Save", categoryName: ""});
+            })
+            .catch(err => console.log(err))
+        }
+    }
+
+    actionStatus = (categoryId) => {
+        if(categoryId !== ""){
+            this.setState({selectedId: categoryId, actionSubmit: "Update"});
+            FirebaseDB.ref('categories/' + categoryId).once('value')
+            .then(snapshot => {
+                this.setState({categoryName: snapshot.val().categoryName})
+            })
+            .catch(err => console.log(err));
+        }else{
+            this.setState({selectedId: "", actionSubmit: "Save", categoryName: ""});
+        }
+    }
+
+    deleteCategory = (categoryId) => {
+        if (window.confirm("Are you sure want to delete this data?")) {
+            FirebaseDB.ref('categories/' + categoryId).remove()
+            .then(() => {
+                this.setState({categories: [...this.state.categories.filter(
+                    category => category.id !== categoryId
+                )]})
+            })
+            .catch(err => console.log(err));
         }
     }
 
@@ -45,15 +86,17 @@ class Categories extends Component {
         return(
             <div>
                 <h1>Categories</h1>
-                <form>
+                <form onSubmit={this.submitHandle}>
                     <input
                     type="text"
                     onChange={this.handleChange}
                     name="categoryName"
+                    value={this.state.categoryName}
                     required
                     />
                     
-                    <button onClick={this.saveCategory}>Save</button>
+                    <button type="submit">{this.state.actionSubmit}</button>
+                    <button type="button" onClick={this.actionStatus.bind(this, "")}>Cancel</button>
                 </form>
 
                 <table>
@@ -61,6 +104,7 @@ class Categories extends Component {
                         <tr>
                             <td>No.</td>
                             <td>Category</td>
+                            <td>#</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,6 +112,16 @@ class Categories extends Component {
                             <tr key={row.id}>
                                 <td>{index+1}</td>
                                 <td>{row.categoryName}</td>
+                                <td>
+                                    <button
+                                    onClick={this.actionStatus.bind(this, row.id)}>
+                                        Edit
+                                    </button>
+                                    <button
+                                    onClick={this.deleteCategory.bind(this, row.id)}>
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -75,7 +129,6 @@ class Categories extends Component {
             </div>
         )
     }
-
 }
 
 export default Categories;
