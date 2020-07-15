@@ -15,7 +15,7 @@ class Categories extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.saveCategory = this.submitHandle.bind(this);
+        this.submitHandle = this.submitHandle.bind(this);
     }
 
     componentDidMount = () => {
@@ -91,6 +91,7 @@ class Categories extends Component {
                     onChange={this.handleChange}
                     name="categoryName"
                     value={this.state.categoryName}
+                    placeholder="Category Name"
                     required
                     />
                     

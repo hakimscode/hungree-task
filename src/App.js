@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import { HashRouter, NavLink, Route } from 'react-router-dom';
 import Categories from './components/Categories';
+import Products from './components/Products';
 
 class App extends Component{
   constructor(props){
@@ -52,6 +53,7 @@ class App extends Component{
                 <div>
                   <Route exact path="/" component={Dashboard}/>
                   <Route exact path="/categories" component={Categories}/>
+                  <Route exact path="/products" component={Products}/>
                 </div>
               </div>
             </HashRouter>
