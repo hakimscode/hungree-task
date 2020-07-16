@@ -38,27 +38,38 @@ class App extends Component{
   
   render(){
     return (
-      <div className="App">
-        {
-          this.state.user 
-          ? <HashRouter>
-              <div>
-                <h1>Product Management System</h1>
-                <ul>
-                  <li><NavLink to="/">Dashboard</NavLink></li>
-                  <li><NavLink to="/categories">Categories</NavLink></li>
-                  <li><NavLink to="/products">Products</NavLink></li>
-                </ul>
-                <button onClick={this.logoutHandle}>Logout</button>
-                <div>
-                  <Route exact path="/" component={Dashboard}/>
-                  <Route exact path="/categories" component={Categories}/>
-                  <Route exact path="/products" component={Products}/>
-                </div>
+      <div className="container">
+        <div className="row">
+            {
+              this.state.user 
+              ? <HashRouter>
+                  <div className="col-sm-9 col-md-7 col-lg-6 mx-auto my-5">
+                    <h1 className="lead text-center">Product Management System</h1>
+                    
+                    <nav className="navbar navbar-light bg-light">
+                        <ul className="nav">
+                          <li className="nav-item"><NavLink className="nav-link" to="/">Dashboard</NavLink></li>
+                          <li className="nav-item"><NavLink className="nav-link" to="/categories">Categories</NavLink></li>
+                          <li className="nav-item"><NavLink className="nav-link" to="/products">Products</NavLink></li>
+                        </ul>
+                        <form className="form-inline">
+                          <button className="btn btn-mini btn-success" onClick={this.logoutHandle}>Logout</button>
+                        </form>
+                    </nav>
+                    
+                    <div className="content">
+                      <Route exact path="/" component={Dashboard}/>
+                      <Route exact path="/categories" component={Categories}/>
+                      <Route exact path="/products" component={Products}/>
+                    </div>
+                  </div>
+                </HashRouter>
+              : 
+              <div className="col-sm-9 col-md-7 col-lg-4 mx-auto">
+                <Login/>
               </div>
-            </HashRouter>
-          : <Login/>
-        }
+            }
+        </div>
       </div>
     );
   }

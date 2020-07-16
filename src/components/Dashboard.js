@@ -32,9 +32,23 @@ class Dashboard extends Component {
     
     render(){
         return(
-            <div>
-                <h3>Categories: {this.state.totalCategories}</h3>
-                <h3>Products: {this.state.totalProducts}</h3>
+            <div className="row">
+                <div className="col-md-6">
+                    <div className="card">
+                        <div className="card-body">
+                            <h3 className="card-title">Categories</h3>
+                            <h5 className="card-link">{this.state.totalCategories}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-6">
+                    <div className="card">
+                        <div className="card-body">
+                            <h3 className="card-title">Products</h3>
+                            <h5 className="card-link">{this.state.totalProducts}</h5>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

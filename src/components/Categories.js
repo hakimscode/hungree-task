@@ -83,49 +83,68 @@ class Categories extends Component {
 
     render(){
         return(
-            <div>
-                <h1>Categories</h1>
-                <form onSubmit={this.submitHandle}>
-                    <input
-                    type="text"
-                    onChange={this.handleChange}
-                    name="categoryName"
-                    value={this.state.categoryName}
-                    placeholder="Category Name"
-                    required
-                    />
-                    
-                    <button type="submit">{this.state.actionSubmit}</button>
-                    <button type="button" onClick={this.actionStatus.bind(this, "")}>Cancel</button>
-                </form>
+            <div className="row">
+                <div className="col-lg-12">
+                    <h2>Categories</h2>
+                </div>
+                <div className="col-lg-12">
+                    <div className="card">
+                        <div className="card-body">
+                            <form onSubmit={this.submitHandle}>
+                                <div className="form-group">
+                                    <label>Category Name</label>
+                                    <input
+                                    type="text"
+                                    onChange={this.handleChange}
+                                    name="categoryName"
+                                    value={this.state.categoryName}
+                                    placeholder="Category Name"
+                                    className="form-control"
+                                    required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <button type="submit" className="btn btn-primary">{this.state.actionSubmit}</button>
+                                    <button type="button" onClick={this.actionStatus.bind(this, "")} className="btn btn-secondary float-right">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <td>No.</td>
-                            <td>Category</td>
-                            <td>#</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.categories.map((row, index) => (
-                            <tr key={row.id}>
-                                <td>{index+1}</td>
-                                <td>{row.categoryName}</td>
-                                <td>
-                                    <button
-                                    onClick={this.actionStatus.bind(this, row.id)}>
-                                        Edit
-                                    </button>
-                                    <button
-                                    onClick={this.deleteCategory.bind(this, row.id)}>
-                                        Delete
-                                    </button>
-                                </td>
+                <div className="col-lg-12">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <td>No.</td>
+                                <td>Category</td>
+                                <td></td>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {this.state.categories.map((category, index) => (
+                                <tr key={category.id}>
+                                    <td>{index+1}</td>
+                                    <td>{category.categoryName}</td>
+                                    <td>
+                                        <button
+                                        onClick={this.deleteCategory.bind(this, category.id)}
+                                        className="btn btn-danger btn-sm float-right m-1"
+                                        >
+                                            Delete
+                                        </button>
+                                        <button
+                                        onClick={this.actionStatus.bind(this, category.id)}
+                                        className="btn btn-warning btn-sm float-right m-1"
+                                        >
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         )
     }

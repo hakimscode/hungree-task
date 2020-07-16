@@ -127,74 +127,106 @@ class Products extends Component {
 
     render(){
         return(
-            <div>
-                <h1>Products</h1>
-                <form onSubmit={this.submitHandle}>
-                    <select
-                        name="categoryId"
-                        onChange={this.handleChange}
-                        value={this.state.categoryId}
-                        required
-                    >
-                        <option>-- Category --</option>
-                        {this.state.categories.map((category) => (
-                            <option key={category.id} value={category.id}>{category.categoryName}</option>
-                        ))}
-                    </select>
+            <div className="row">
+                <div className="col-lg-12">
+                    <h2>Products</h2>
+                </div>
+                <div className="col-lg-12">
+                    <div className="card">
+                        <div className="card-body">
+                            <form onSubmit={this.submitHandle}>
+                                <div className="form-group">
+                                    <label>Category</label>
+                                    <select
+                                        name="categoryId"
+                                        onChange={this.handleChange}
+                                        value={this.state.categoryId}
+                                        className="form-control"
+                                        required
+                                    >
+                                        <option>-- Category --</option>
+                                        {this.state.categories.map((category) => (
+                                            <option key={category.id} value={category.id}>{category.categoryName}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-9">
+                                        <div className="form-group">
+                                            <label>Product Name</label>
+                                            <input
+                                            type="text"
+                                            onChange={this.handleChange}
+                                            name="productName"
+                                            className="form-control"
+                                            value={this.state.productName}
+                                            placeholder="Product Name"
+                                            required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <div className="form-group">
+                                            <label>Qty</label>
+                                            <input
+                                            type="number"
+                                            onChange={this.handleChange}
+                                            name="qty"
+                                            className="form-control"
+                                            value={this.state.qty}
+                                            placeholder="Qty"
+                                            required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="form-group">
+                                    <button type="submit" className="btn btn-primary">{this.state.actionSubmit}</button>
+                                    <button type="button" onClick={this.actionStatus.bind(this, "")} className="btn btn-secondary float-right">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-                    <input
-                    type="text"
-                    onChange={this.handleChange}
-                    name="productName"
-                    value={this.state.productName}
-                    placeholder="Product Name"
-                    required
-                    />
-                    
-                    <input
-                    type="text"
-                    onChange={this.handleChange}
-                    name="qty"
-                    value={this.state.qty}
-                    placeholder="Qty"
-                    required
-                    />
-                    
-                    <button type="submit">{this.state.actionSubmit}</button>
-                    <button type="button" onClick={this.actionStatus.bind(this, "")}>Cancel</button>
-                </form>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <td>No.</td>
-                            <td>Category</td>
-                            <td>Product Name</td>
-                            <td>Qty</td>
-                            <td>#</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.products.map((product, index) => (
-                            <tr key={product.id}>
-                                <td>{index+1}</td>
-                                <td>{product.category.categoryName}</td>
-                                <td>{product.productName}</td>
-                                <td>{product.qty}</td>
-                                <td>
-                                    <button
-                                    onClick={this.actionStatus.bind(this, product.id)}>
-                                        Edit
-                                    </button>
-                                    <button
-                                    onClick={this.deleteProduct.bind(this, product.id)}>
-                                        Delete
-                                    </button>
-                                </td>
+                <div className="col-lg-12">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <td>No.</td>
+                                <td>Category</td>
+                                <td>Product Name</td>
+                                <td>Qty</td>
+                                <td></td>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {this.state.products.map((product, index) => (
+                                <tr key={product.id}>
+                                    <td>{index+1}</td>
+                                    <td>{product.category.categoryName}</td>
+                                    <td>{product.productName}</td>
+                                    <td>{product.qty}</td>
+                                    <td>
+                                        <button
+                                        onClick={this.deleteProduct.bind(this, product.id)}
+                                        className="btn btn-danger btn-sm float-right m-1"
+                                        >
+                                            Delete
+                                        </button>
+                                        <button
+                                        onClick={this.actionStatus.bind(this, product.id)}
+                                        className="btn btn-warning btn-sm float-right m-1"
+                                        >
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         )
     }
