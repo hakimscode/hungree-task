@@ -1,6 +1,4 @@
-import firebase from 'firebase';
-
-var firebaseConfig = {
+export const firebaseConfig = {
     apiKey: "AIzaSyA321r7YJX4yLjPb9bFf_I_NnKNHngmtMM",
     authDomain: "hungree-task.firebaseapp.com",
     databaseURL: "https://hungree-task.firebaseio.com",
@@ -10,7 +8,3 @@ var firebaseConfig = {
     appId: "1:544947143685:web:3849f005e5524742d7886c",
     measurementId: "G-8NGWH1H7MW"
 };
-
-const FirebaseApp = firebase.initializeApp(firebaseConfig)
-export const FirebaseDB = FirebaseApp.database();
-export default FirebaseApp;

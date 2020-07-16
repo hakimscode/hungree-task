@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import firebaseApp from './config/firebase';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import { HashRouter, NavLink, Route } from 'react-router-dom';
 import Categories from './components/Categories';
 import Products from './components/Products';
+import { FirebaseApp } from './firebase';
 
 class App extends Component{
   constructor(props){
@@ -18,7 +18,7 @@ class App extends Component{
   }
 
   authListener = () => {
-    firebaseApp.auth().onAuthStateChanged((user)=>{
+    FirebaseApp.auth().onAuthStateChanged((user)=>{
       if(user){
         this.setState({user})
       }else{
@@ -33,7 +33,7 @@ class App extends Component{
 
   logoutHandle = (e) => {
     e.preventDefault();
-    firebaseApp.auth().signOut();
+    FirebaseApp.auth().signOut();
   }
   
   render(){

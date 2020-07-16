@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FirebaseDB } from '../config/firebase';
+import { FirebaseDB } from '../firebase';
 
 class Dashboard extends Component {
 

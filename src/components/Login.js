@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebaseApp from '../config/firebase';
+import { FirebaseApp } from '../firebase';
 
 class Login extends Component {
 
@@ -23,7 +23,7 @@ class Login extends Component {
 
     signInHandle = (e) => {
         e.preventDefault();
-        firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+        FirebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then((res) => {
             console.log(res);
         })
@@ -34,7 +34,7 @@ class Login extends Component {
 
     signUpHandle = (e) => {
         e.preventDefault();
-        firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        FirebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((res) => {
             console.log(res);
         })
@@ -45,7 +45,7 @@ class Login extends Component {
 
     render(){
         return (
-          <div>
+          <div className="row">
               <form>
                   <input
                   type="text"
